@@ -1,1 +1,3 @@
-# algoharjoitus
+# algoharjoitus  
+  
+## Viikko 1  
