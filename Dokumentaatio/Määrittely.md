@@ -1,19 +1,20 @@
 # Määrittelydokumentti  
 
+Projektin dokumentaatio on suomeksi.  
+
 Teen projektin Pythonilla.  
 
 Opinto-ohjelmani on Tietojenkäsittelytieteen kandidaatti.  
 
-Projektin aihe on luolastojen generointi.  
+Projektin ydin on luolastojen satunnainen generointi kaksiulotteisessa tasossa. Se saavutetaan toteuttamalla Delaunayn triangulaatio Bowyer-Watson algoritmilla. Huoneet voidaan yhdistää toisiinsa käyttämällä syvyyshakua.   
 
-W.I.P.
+Projektia voi hyödyntää esimerkiksi generoimaan satunnaisia tasoja peliin.  
 
-Mitä algoritmeja ja tietorakenteita toteutat työssäsi?  
+Bowyer-Watson toimii aikavaativuudella O(n<sup>2</sup>). Optimoinnilla se voi toimia myös aikavaativuudella O(n log n), mutta ei välttämättä kaikissa tapauksissa.  
 
-Minkä ongelman ratkaiset?  
+Ohjelma ei tarvitse syötettä, vaan se tuottaa määrittelyn kokoiseen kaksiulotteiseen tasoon sopivan luolaston.  
 
-Mitä syötteitä ohjelma saa ja miten niitä käytetään?  
-
-Tavoitteena olevat aika- ja tilavaativuudet (esim. O-analyysit)  
-
-Viitteet  
+## Viitteet  
+[Vazgriz - Procedurally Generated Dungeons](https://vazgriz.com/119/procedurally-generated-dungeons)  
+[Tom Stephenson - Creating Simple Procedural Dungeon Generation](https://www.tomstephensondeveloper.co.uk/post/creating-simple-procedural-dungeon-generation)  
+[Wikipedia - Bowyer-Watson Algorithm](https://en.wikipedia.org/wiki/Bowyer%E2%80%93Watson_algorithm)  
