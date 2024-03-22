@@ -10,7 +10,7 @@ Projektin ydin on luolastojen satunnainen generointi kaksiulotteisessa tasossa. 
 
 Projektia voi hyödyntää esimerkiksi generoimaan satunnaisia tasoja peliin.  
 
-Bowyer-Watson toimii aikavaativuudella O(n<sup>2</sup>). Optimoinnilla se voi toimia myös aikavaativuudella O(n log n), mutta ei välttämättä kaikissa tapauksissa.  
+Bowyer-Watson toimii aikavaativuudella O(n<sup>2</sup>), N pisteen kolmiointiin. Optimoinnilla se voi toimia myös aikavaativuudella O(n log n), mutta ei välttämättä kaikissa tapauksissa.  
 
 Ohjelma ei tarvitse syötettä, vaan se tuottaa määrittelyn kokoiseen kaksiulotteiseen tasoon sopivan luolaston.  
 
