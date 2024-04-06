@@ -196,16 +196,7 @@ MIN_DISTANCE = 100
 points = generate_points(NPOINTS, X_MAX, Y_MAX, MIN_DISTANCE)
 #rooms = generate_rooms(points, MIN_DISTANCE)
 rooms = []
-#points = [(100, 100), (200, 300), (400, 200), (500, 500)]
-#points = [(264, 592), (138, 495), (28, 376), (523, 491), (508, 374)]
-print("List of points: ", points, len(points))
-
-#print("Circumcircle: ", circumcircle((0, 0), (0, 4), (4, 4)))
-
 triangulation = delaunay(points, X_MAX, Y_MAX)
-
-print("Delaunay: ", triangulation)
-
 
 # Visualization
 pygame.init()
