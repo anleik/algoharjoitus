@@ -3,7 +3,20 @@
 Ohjelma suorittaa Delaunayn triangulaation käyttäen Bowyer-Watsonin algoritmia.  
 ESC = Sulje ohjelma.  
 R = Uudelleengeneroi triangulaatio.  
+G = Generoi huoneet.  
 
-## Viikko 2  
+## Testaus  
 
-[Viikkoraportti 2](/Dokumentaatio/Viikkoraportti2.md)  
+Avaa virtuaaliympäristö:
+```
+poetry shell
+```
+
+Aja testit:  
+```
+pytest
+```
+
+## Viikko 3  
+
+[Viikkoraportti 3](/Dokumentaatio/Viikkoraportti3.md)  

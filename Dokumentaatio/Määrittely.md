@@ -17,4 +17,5 @@ Ohjelma ei tarvitse syötettä, vaan se tuottaa määrittelyn kokoiseen kaksiulo
 ## Viitteet  
 [Vazgriz - Procedurally Generated Dungeons](https://vazgriz.com/119/procedurally-generated-dungeons)  
 [Tom Stephenson - Creating Simple Procedural Dungeon Generation](https://www.tomstephensondeveloper.co.uk/post/creating-simple-procedural-dungeon-generation)  
+[Gorilla Sun - Bowyer-Watson Algorithm for Delaunay Triangulation](https://www.gorillasun.de/blog/bowyer-watson-algorithm-for-delaunay-triangulation/)  
 [Wikipedia - Bowyer-Watson Algorithm](https://en.wikipedia.org/wiki/Bowyer%E2%80%93Watson_algorithm)  

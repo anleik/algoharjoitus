@@ -1,5 +1,7 @@
 import random
 import math
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "1"
 import pygame
 
 def distance(point1, point2):
@@ -9,45 +11,44 @@ def distance(point1, point2):
     return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
 
 def generate_points(n:int, x:int, y:int, min_distance:int):
-    """Generoi satunnaisia pisteitä 2d-tasolle.
+    """Generoi satunnaisia pisteitä 2d-tasolle tietyn etäisyyden päähän reunoista ja toisistaan.
 
     Args:
         n (int): Generoitavien pisteiden määrä.
         x (int): Max x-koordinaatti.
         y (int): Max y-koordinaatti.
-        min_distance (int): Pienin sallittu etäisyys pisteiden välillä.
+        min_distance (int): Pienin sallittu etäisyys pisteiden ja reunojen välillä.
 
     Returns:
         list: Lista generoituja pisteitä.
     """
-    points = []
-    while len(points) < n:
-        randomx = random.randint(0, x)
-        randomy = random.randint(0, y)
+    pointslist = []
+    while len(pointslist) < n:
+        randomx = random.randint(0+min_distance/2, x-min_distance/2)
+        randomy = random.randint(0+min_distance/2, y-min_distance/2)
         randompoint = (randomx, randomy)
-        if all(distance(randompoint, oldpoint) >= min_distance for oldpoint in points):
-            points.append(randompoint)
-    return points
+        if all(distance(randompoint, oldpoint) >= min_distance for oldpoint in pointslist):
+            pointslist.append(randompoint)
+    return pointslist
 
 def add_super_triangle(max_x, max_y):
     """Muodostaa superkolmion joka kattaa koko 2d-alueen.
 
     Args:
-        points (list): Lista pisteitä.
         max_x (int): Max x-koordinaatti.
         max_y (int): Max y-koordinaatti.
 
     Returns:
         tuple: Kolme pistettä jotka muodostavat kolmion.
     """
+
     min_x = -1
     min_y = -1
-    max_x += 1
-    max_y += 1
+    max_x *= 2
+    max_y *= 2
 
-    super_triangle = ((min_x, min_y), (max_x, min_y), (max_x, max_y))
+    super_triangle = ((min_x, min_y), (max_x, min_y), (min_x, max_y))
     return super_triangle
-
 
 def is_collinear(point1, point2, point3):
     """Tarkistaa ovatko pisteet samalla suoralla ja palauttaa totuusarvon.
@@ -99,7 +100,7 @@ def circumcircle(point1, point2, point3):
     return (xc, yc), radius
 
 def inside_circumcircle(point, triangle):
-    """Tarkistaa onko piste kolmion ympäri piirretyn ympyrän sisällä.
+    """Tarkistaa onko piste kolmion ympäri piirretyn ympyrän sisällä ja palauttaa totuusarvon.
     """
     center, radius = circumcircle(*triangle)
     if center is None or radius is None:
@@ -111,6 +112,18 @@ def get_edges(triangle):
     """
     edges = ((triangle[0], triangle[1]), (triangle[1], triangle[2]), (triangle[2], triangle[0]))
     return edges
+
+def shared_edge(edge, triangles):
+    """Laskee kuinka monta kertaa sivu esiintyy listassa kolmioita ja palauttaa määrän."""
+    tricount = 0
+    for triangle in triangles:
+        triangle_edges = get_edges(triangle)
+        for tri_edge in triangle_edges:
+            if edge == tri_edge:
+                tricount += 1
+            elif edge == tuple(reversed(tri_edge)):
+                tricount += 1
+    return tricount
 
 def delaunay(points, x, y):
     """Suorittaa Delaunayn triangulaation annetuille pisteille.
@@ -127,16 +140,16 @@ def delaunay(points, x, y):
     triangulation.append(add_super_triangle(x, y))
 
     for point in points:
-        bad_triangles = []
+        bad_triangles = set()
         for triangle in triangulation:
             if inside_circumcircle(point, triangle):
-                bad_triangles.append(triangle)
+                bad_triangles.add(triangle)
 
         polygon = set()
         for triangle in bad_triangles:
             edges = get_edges(triangle)
             for edge in edges:
-                if sum(edge in get_edges(tri) for tri in bad_triangles) == 1:
+                if shared_edge(edge, bad_triangles) == 1:
                     polygon.add(edge)
 
         for triangle in bad_triangles:
@@ -148,16 +161,43 @@ def delaunay(points, x, y):
 
     new_triangulation = []
     for triangle in triangulation:
-        if not any(vertex in triangle for vertex in [(-1, -1), (x+1, -1), (x+1, y+1)]):
+        if not any(vertex in triangle for vertex in [(-1, -1), (x*2, -1), (-1, y*2)]):
             new_triangulation.append(triangle)
     return new_triangulation
 
-#Parameters
-NPOINTS = 5
-X_MAX = 600
-Y_MAX = 600
-MIN_DISTANCE = 30
+def generate_rooms(pointlist:list, min_dist:int):
+    """Luo pisteiden ympärille sen kokoisen huoneen ettei se voi törmätä muihin huoneisiin.
+
+    Args:
+        pointlist (list): Lista pisteistä.
+        min_dist (int): Pienin sallittu etäisyys pisteiden välillä.
+
+    Returns:
+        list: Lista huoneita.
+    """
+    roomlist = []
+    min_dist *= 0.5
+    side_length = (2**0.5) * min_dist
+    for pt in pointlist:
+        x, y = pt
+        square = pygame.Rect(x - side_length/2, y - side_length/2, side_length, side_length)
+        roomlist.append(square)
+        if RUNNING:
+            pygame.draw.rect(window, blue, square, 5)
+            pygame.time.wait(int(NPOINTS*2.5))
+            pygame.display.update()
+    return roomlist
+
+# Parameters
+NPOINTS = 20
+X_MAX = 800
+Y_MAX = 800
+MIN_DISTANCE = 100
 points = generate_points(NPOINTS, X_MAX, Y_MAX, MIN_DISTANCE)
+#rooms = generate_rooms(points, MIN_DISTANCE)
+rooms = []
+#points = [(100, 100), (200, 300), (400, 200), (500, 500)]
+#points = [(264, 592), (138, 495), (28, 376), (523, 491), (508, 374)]
 print("List of points: ", points, len(points))
 
 #print("Circumcircle: ", circumcircle((0, 0), (0, 4), (4, 4)))
@@ -175,6 +215,7 @@ pygame.display.set_caption("Delaunay Triangulation")
 white = (255, 255, 255)
 black = (0, 0, 0)
 red = (255, 0, 0)
+blue = (0, 0, 255)
 
 RUNNING = True
 while RUNNING:
@@ -186,22 +227,27 @@ while RUNNING:
                 RUNNING = False
             elif event.key == pygame.K_r:
                 points = generate_points(NPOINTS, X_MAX, Y_MAX, MIN_DISTANCE)
-                print("List of points: ", points, len(points))
+                #print("List of points: ", points, len(points))
                 triangulation = delaunay(points, X_MAX, Y_MAX)
-                print("Delaunay: ", triangulation)
+                #print("Delaunay: ", triangulation)
+                rooms = []
+            elif event.key == pygame.K_g:
+                rooms = generate_rooms(points, MIN_DISTANCE)
     window.fill(black)
 
-    for point in points:
-        pygame.draw.circle(window, red, point, 2)
+    for p in points:
+        pygame.draw.circle(window, red, p, 2)
 
-    for triangle in triangulation:
-        pygame.draw.polygon(window, white, triangle, 1)
-        for vertex in triangle:
-            pygame.draw.circle(window, red, vertex, 4)
+    for r in rooms:
+        pygame.draw.rect(window, blue, r, 5)
+
+    for t in triangulation:
+        pygame.draw.polygon(window, white, t, 1)
+        for vertex in t:
+            pygame.draw.circle(window, red, vertex, 3)
+
+
 
     pygame.display.flip()
 
 pygame.quit()
-
-
-# Form rooms and corridors according to rules.
