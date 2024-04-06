@@ -6,4 +6,4 @@ Sovelluksen testaus on toteutettu unittestin avulla.
 
 ## Testikattavuus  
 
-![Kattavuusraportti](/Coveragereport.png)
+![Kattavuusraportti](https://github.com/anleik/algoharjoitus/blob/main/Dokumentaatio/Coveragereport.png)
