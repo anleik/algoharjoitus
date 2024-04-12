@@ -4,19 +4,40 @@ Ohjelma suorittaa Delaunayn triangulaation käyttäen Bowyer-Watsonin algoritmia
 ESC = Sulje ohjelma.  
 R = Uudelleengeneroi triangulaatio.  
 G = Generoi huoneet.  
+C = Generoi käytävät.  
+P = Tulosta muuttujat.  
+
+## Käynnistys  
+
+Asenna riippuvuudet:  
+```
+poetry install
+```
+
+Käynnistä sovellus:  
+```
+poetry run invoke start
+```
+
 
 ## Testaus  
 
-Avaa virtuaaliympäristö:
-```
-poetry shell
-```
 
 Aja testit:  
 ```
-pytest
+poetry run invoke test
 ```
 
-## Viikko 3  
+Testikattavuus:  
+```
+poetry run invoke coverage
+```
 
-[Viikkoraportti 3](/Dokumentaatio/Viikkoraportti3.md)  
+Kattavuusraportti:  
+```
+poetry run invoke coverage-report
+```
+
+## Viikko 4  
+
+[Viikkoraportti 4](/Dokumentaatio/Viikkoraportti4.md)  

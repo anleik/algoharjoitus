@@ -125,11 +125,11 @@ def shared_edge(edge, triangles):
                 tricount += 1
     return tricount
 
-def delaunay(points, x, y):
-    """Suorittaa Delaunayn triangulaation annetuille pisteille.
+def delaunay(pointslist, x, y):
+    """Suorittaa Delaunayn triangulaation annetuille pisteille Bowyer-Watson algoritmilla.
 
     Args:
-        points (list): Lista pisteitä.
+        pointslist (list): Lista pisteitä.
         x (int): Max x-koordinaatti.
         y (int): Max y-koordinaatti.
 
@@ -139,7 +139,7 @@ def delaunay(points, x, y):
     triangulation = []
     triangulation.append(add_super_triangle(x, y))
 
-    for point in points:
+    for point in pointslist:
         bad_triangles = set()
         for triangle in triangulation:
             if inside_circumcircle(point, triangle):
@@ -183,12 +183,92 @@ def generate_rooms(pointlist:list, min_dist:int):
         square = pygame.Rect(x - side_length/2, y - side_length/2, side_length, side_length)
         roomlist.append(square)
         if RUNNING:
-            pygame.draw.rect(window, blue, square, 5)
+            pygame.draw.rect(window, yellow, square, 5)
             pygame.time.wait(int(NPOINTS*2.5))
             pygame.display.update()
     return roomlist
 
-# Parameters
+def generate_start_point(pointslist:list, x:int, y:int, min_dist:int):
+    """Antaa satunnaisen alkupisteen listasta siten, että piste on lähellä kahta 2d-tason kulmaa.
+
+    Args:
+        pointslist (list): Lista pisteitä.
+        x (int): Suurin sallittu x-koordinaatti.
+        y (int): Suurin sallittu y-koordinaatti.
+        min_dist (int): Pienin sallittu etäisyys pisteiden ja reunojen välillä.
+
+    Returns:
+        _type_: Satunnainen alkupiste.
+    """
+    start_points = []
+    dist = int(min_dist*1.2)
+    startx = random.choice([0, x])
+    starty = random.choice([0, y])
+
+    while not start_points:
+        for px in pointslist:
+            if abs(px[0]-startx) < int(dist) and abs(px[1]-starty) < int(dist) and not start_points:
+                start_points.append(px)
+
+        if start_points:
+            return random.choice(start_points)
+        
+        dist += min_dist*0.2
+    return random.choice(pointslist)
+
+def get_neighbors(point, triangleslist):
+    """Tarkistaa listasta kolmioita mitkä pisteet ovat yhteydessä annettuun pisteeseen (naapurit).
+
+    Args:
+        point (point): Piste.
+        triangleslist (list): Lista kolmioita.
+
+    Returns:
+        neighborslist: Lista annetun pisteen naapureita.
+    """
+    neighborslist = []
+    for tr in triangleslist:
+        if point in tr:
+            for neighbor in tr:
+                if neighbor != point and neighbor not in neighborslist:
+                    neighborslist.append(neighbor)
+
+    return neighborslist
+
+def dfs(current_p, visited, triangleslist):
+    """Syvyyshaku joka merkkaa pisteen ja jatkaa hakua naapureihin, jos niissä ei ole vierailtu.
+
+    Args:
+        current_p (point): Tämänhetkinen piste.
+        visited (point): Lista jo vierailluista pisteistä.
+        triangleslist (list): Lista kolmioita josta löydetään pisteiden väliset sivut.
+    """
+    neighbors = []
+    visited.append(current_p)
+    for neighbor in get_neighbors(current_p, triangleslist):
+        neighbors.append(neighbor)
+
+    for n in neighbors:
+        if n not in visited:
+            dfs(n, visited, triangleslist)
+
+def pathing(triangleslist, startpoint):
+    """Aloittaa syvyyshaun annetusta pisteestä ja käy läpi kaikki listasta löytyvät pisteet.
+
+    Args:
+        triangleslist (list): Lista kolmioita.
+        startpoint (point): Aloituspiste.
+
+    Returns:
+        visited: Järjestyksessä oleva polku joka käy kaikki pisteet läpi.
+    """
+    visited = []
+    dfs(startpoint, visited, triangleslist)
+
+    return visited
+
+
+# Parameters and initialization
 NPOINTS = 20
 X_MAX = 800
 Y_MAX = 800
@@ -197,6 +277,9 @@ points = generate_points(NPOINTS, X_MAX, Y_MAX, MIN_DISTANCE)
 #rooms = generate_rooms(points, MIN_DISTANCE)
 rooms = []
 triangulation = delaunay(points, X_MAX, Y_MAX)
+start_point = generate_start_point(points, X_MAX, Y_MAX, MIN_DISTANCE)
+#corridors = pathing(triangulation, start_point, end_point)
+corridors = []
 
 # Visualization
 pygame.init()
@@ -207,6 +290,8 @@ white = (255, 255, 255)
 black = (0, 0, 0)
 red = (255, 0, 0)
 blue = (0, 0, 255)
+yellow = (255, 255, 0)
+green = (0, 255, 0)
 
 RUNNING = True
 while RUNNING:
@@ -218,26 +303,41 @@ while RUNNING:
                 RUNNING = False
             elif event.key == pygame.K_r:
                 points = generate_points(NPOINTS, X_MAX, Y_MAX, MIN_DISTANCE)
-                #print("List of points: ", points, len(points))
                 triangulation = delaunay(points, X_MAX, Y_MAX)
-                #print("Delaunay: ", triangulation)
+                start_point = generate_start_point(points, X_MAX, Y_MAX, MIN_DISTANCE)
                 rooms = []
-            elif event.key == pygame.K_g:
+                corridors = []
+            elif event.key == pygame.K_g and not rooms:
                 rooms = generate_rooms(points, MIN_DISTANCE)
+            elif event.key == pygame.K_c and not corridors:
+                corridors = pathing(triangulation, start_point)
+                triangulation = []
+            elif event.key == pygame.K_p:
+                print("Points: ", points, "\n", flush=True)
+                print("Delaunay triangulation: ", triangulation, "\n", flush=True)
+                print("Start point: ", start_point, "\n", flush=True)
+                if rooms:
+                    print("Rooms: ", rooms, "\n", flush=True)
+                if corridors:
+                    print("Corridors: ", corridors, "\n", flush=True)
+
     window.fill(black)
 
     for p in points:
         pygame.draw.circle(window, red, p, 2)
 
     for r in rooms:
-        pygame.draw.rect(window, blue, r, 5)
+        pygame.draw.rect(window, yellow, r, 5)
 
     for t in triangulation:
         pygame.draw.polygon(window, white, t, 1)
         for vertex in t:
             pygame.draw.circle(window, red, vertex, 3)
 
+    for i in range(len(corridors)-1):
+        pygame.draw.line(window, green, corridors[i], corridors[i+1], 2)
 
+    pygame.draw.circle(window, blue, start_point, 5)
 
     pygame.display.flip()
 
