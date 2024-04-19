@@ -12,7 +12,7 @@ Projektia voi hyödyntää esimerkiksi generoimaan satunnaisia tasoja peliin.
 
 Bowyer-Watson toimii aikavaativuudella O(n<sup>2</sup>), N pisteen kolmiointiin. Optimoinnilla se voi toimia myös aikavaativuudella O(n log n), mutta ei välttämättä kaikissa tapauksissa.  
 
-Ohjelma ei tarvitse syötettä, vaan se tuottaa määrittelyn kokoiseen kaksiulotteiseen tasoon sopivan luolaston.  
+Ohjelma ei tarvitse syötettä, vaan se tuottaa määrittelyn kokoiseen kaksiulotteiseen tasoon sopivan luolaston. Määrittely löytyy parameters.py-tiedostosta.  
 
 ## Viitteet  
 [Vazgriz - Procedurally Generated Dungeons](https://vazgriz.com/119/procedurally-generated-dungeons)  

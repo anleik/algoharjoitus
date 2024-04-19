@@ -9,6 +9,8 @@ Sovellus suorittaa Delaunayn triangulaation käyttäen Bowyer-Watsonin algoritmi
 
 ## Työn puutteita ja parannusehdotuksia  
 
+Syvyyshakualgoritmin luonteen takia generoitu polku ei aina ole täydellinen 2d-tasossa eli polku voi mennä ristiin aiemman polun yli. Jatkokehityksessä tämän voisi toteuttaa 3d-tasossa niin että toinen polku menee toisen yli eivätkä polut törmää.  
+
 ## Laajojen kielimallien käyttö  
 
 Työssä ei ole käytetty laajoja kielimalleja. *Huom. Joillain verkkosivuilla jotka sisältävät käyttäjien kysymyksia ja vastauksia, joskus tarjotaan laajan kielimallin generoima vastaus ja se voi jopa näkyä Google-hakusivulla ennen käyttäjien kirjoittamia vastauksia.*  

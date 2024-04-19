@@ -38,6 +38,10 @@ Kattavuusraportti:
 poetry run invoke coverage-report
 ```
 
-## Viikko 4  
+## Käyttöohje  
 
-[Viikkoraportti 4](/Dokumentaatio/Viikkoraportti4.md)  
+[Käyttöohje](/Dokumentaatio/Käyttöohje.md)  
+
+## Viikko 5  
+
+[Viikkoraportti 5](/Dokumentaatio/Viikkoraportti5.md)  
