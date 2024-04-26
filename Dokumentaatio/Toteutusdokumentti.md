@@ -2,10 +2,16 @@
 
 ## Ohjelman rakenne  
 
-Sovellus suorittaa Delaunayn triangulaation käyttäen Bowyer-Watsonin algoritmia satunnaisille pisteille sekä luo polun pisteiden läpi syvyyshakua käyttäen. Ohjelma sisältää funktiot näille algoritmeille sekä paljon apufunktioita tarkistamaan että syöte on oikeanlainen ja haluttu tulos on mahdollinen. Sitten ohjelma alustaa satunnaiset muuttujat ja avaa pygame-ikkunan visualisoimaan tuotettua tulosta. Tietyillä näppäimillä voi ohjelmassa muuttaa näkymää.  
+Sovellus suorittaa Delaunayn triangulaation käyttäen Bowyer-Watsonin algoritmia satunnaisille pisteille sekä luo polun pisteiden läpi syvyyshakua käyttäen. Ohjelma sisältää funktiot näille algoritmeille sekä paljon apufunktioita tarkistamaan että syöte on oikeanlainen ja haluttu tulos on mahdollinen. Sitten ohjelma alustaa satunnaiset muuttujat ja avaa pygame-ikkunan visualisoimaan tuotettua tulosta. Tietyillä näppäimillä voi ohjelmassa uudelleengeneroida triangulaation, generoida huoneet ja/tai generoida polun huoneiden välille syvyyshaulla.  
 
 
-## Aikavaativuudet  
+## Aikavaativuus  
+
+Boywer-Watsonin algoritmia on testattu erikokoisilla syötteillä. Algoritmi saavuttaa aikavaativuuden O(n<sup>2</sup>) missä n on pisteiden määrä. Esim. 100 pisteen triangulointi vie noin 0.03 sekuntia, 1000 pisteen triangulointi noin 3 sekuntia ja 10000 pisteen triangulointi noin 300 sekuntia eli aika kasvaa toisessa potenssissa syötteeseen nähden.  
+
+![Sata]()  
+![Tuhat]()  
+![10Tuhat]()  
 
 ## Työn puutteita ja parannusehdotuksia  
 

@@ -1,4 +1,5 @@
 import unittest
+import time
 from logic import *
 
 class TestFunctions(unittest.TestCase):
@@ -56,6 +57,13 @@ class TestFunctions(unittest.TestCase):
         x, y = 10, 10
         self.assertEqual(len(delaunay(testpoints, x, y)), 2)
         self.assertNotEqual(len(delaunay(testpoints, x, y)), 3)
+
+    def test_delaunay_time(self):   #Aikavaativuuden testausta
+        testpoints = generate_points(100, 10000, 10000, 50)
+        start_time = time.time()
+        result = delaunay(testpoints, 10000, 10000)
+        end_time = time.time()
+        self.assertLess(end_time - start_time, 0.1)
 
     def test_generate_rooms(self):  
         testpoints = [(319, 159), (753, 464), (186, 783), (681, 584), (459, 169)]

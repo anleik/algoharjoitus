@@ -42,6 +42,6 @@ poetry run invoke coverage-report
 
 [Käyttöohje](/Dokumentaatio/Käyttöohje.md)  
 
-## Viikko 5  
+## Viikko 6  
 
-[Viikkoraportti 5](/Dokumentaatio/Viikkoraportti5.md)  
+[Viikkoraportti 6](/Dokumentaatio/Viikkoraportti6.md)  
