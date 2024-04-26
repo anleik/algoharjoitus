@@ -9,9 +9,9 @@ Sovellus suorittaa Delaunayn triangulaation käyttäen Bowyer-Watsonin algoritmi
 
 Boywer-Watsonin algoritmia on testattu erikokoisilla syötteillä. Algoritmi saavuttaa aikavaativuuden O(n<sup>2</sup>) missä n on pisteiden määrä. Esim. 100 pisteen triangulointi vie noin 0.03 sekuntia, 1000 pisteen triangulointi noin 3 sekuntia ja 10000 pisteen triangulointi noin 300 sekuntia eli aika kasvaa toisessa potenssissa syötteeseen nähden.  
 
-![Sata]()  
-![Tuhat]()  
-![10Tuhat]()  
+![Sata](https://github.com/anleik/algoharjoitus/blob/main/Dokumentaatio/img/casehundred.png)  
+![Tuhat](https://github.com/anleik/algoharjoitus/blob/main/Dokumentaatio/img/casethousand.png)  
+![10Tuhat](https://github.com/anleik/algoharjoitus/blob/main/Dokumentaatio/img/casetenthousand.png)  
 
 ## Työn puutteita ja parannusehdotuksia  
 
