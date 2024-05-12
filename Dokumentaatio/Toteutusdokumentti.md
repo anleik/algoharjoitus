@@ -15,7 +15,7 @@ Boywer-Watsonin algoritmia on testattu erikokoisilla syötteillä. Algoritmi saa
 
 ## Työn puutteita ja parannusehdotuksia  
 
-Syvyyshakualgoritmin luonteen takia generoitu polku ei aina ole täydellinen 2d-tasossa eli polku voi mennä ristiin aiemman polun yli. Jatkokehityksessä tämän voisi toteuttaa 3d-tasossa niin että toinen polku menee toisen yli eivätkä polut törmää.  
+Syvyyshakualgoritmin luonteen takia generoitu polku ei aina ole täydellinen 2d-tasossa eli polku voi mennä ristiin aiemman polun yli (tämä voi olla myös hyvä ominaisuus). Jatkokehityksessä tämän voisi toteuttaa 3d-tasossa niin että toinen polku menee toisen yli eivätkä polut törmää.  
 
 ## Laajojen kielimallien käyttö  
 
